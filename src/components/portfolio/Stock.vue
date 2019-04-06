@@ -10,9 +10,12 @@
                     <input placeholder="Quantity"
                            v-model="quantity"
                            class="input-stock"
+                           :class="{'danger': insufficientFunds}"
                            type="number"/>
                 </div>
-                <button class="sell--btn" @click="sellStock">Sell</button>
+                <button :disabled="insufficientQuantity || quantity <= 0"
+                        class="sell--btn"
+                        @click="sellStock">{{insufficientQuantity ? 'Not enough Stock' : 'Sell'}}</button>
             </div>
         </div>
 
@@ -28,6 +31,11 @@
         data() {
             return {
                 quantity: 0
+            }
+        },
+        computed: {
+            insufficientQuantity() {
+                return this.quantity > this.stock.quantity
             }
         },
         methods: {
@@ -51,6 +59,9 @@
 </script>
 
 <style scoped>
+    .danger {
+        border: 1px solid red;
+    }
     .input-stock {
         border-radius: 5px;
         height: 40px;

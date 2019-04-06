@@ -21,7 +21,7 @@
                     <option value="load">Load</option>
                 </select>
             </div>
-            <div class="header--item">Funds: {{ $store.getters.funds }} €</div>
+            <div class="header--item">Funds: {{ funds | currency}} </div>
         </div>
 
     </div>
@@ -46,6 +46,11 @@
             },
             endDay() {
                 // End Day function
+            }
+        },
+        computed: {
+            funds () {
+                return this.$store.getters.funds;
             }
         }
     }

@@ -10,9 +10,12 @@
                     <input placeholder="Quantity"
                            v-model="quantity"
                            class="input-stock"
+                           :class="{'danger': insufficientFunds}"
                            type="number">
                 </div>
-                <button class="buy--btn" @click="buyStock">Buy</button>
+                <button :disabled="insufficientFunds || quantity <= 0"
+                        class="buy--btn"
+                        @click="buyStock">{{insufficientFunds ? 'insufficient funds' : 'Buy' }}</button>
             </div>
         </div>
     </div>
@@ -22,10 +25,18 @@
     export default {
         props: ["stock"],
         name: "Stock",
-        data () {
-          return {
-              quantity: 0
-          }
+        data() {
+            return {
+                quantity: 0
+            }
+        },
+        computed: {
+            funds() {
+                return this.$store.getters.funds;
+            },
+            insufficientFunds() {
+                return this.quantity * this.stock.price > this.funds;
+            }
         },
         methods: {
             buyStock() {
@@ -42,6 +53,10 @@
 </script>
 
 <style scoped>
+
+    .danger {
+        border: 1px solid red;
+    }
 
     .input-stock {
         border-radius: 5px;

@@ -1,14 +1,21 @@
 <template>
     <article>
         <h1 style="margin-bottom: 20px">Trade or View your Portfolio</h1>
-        <p>You may Save & Load Data</p><br>
-        <p>Click on 'End Day' to begin a new Day</p>
+        <h6>You may Save & Load Data</h6>
+        <h6>Click on 'End Day' to begin a New Day!</h6>
+        <hr>
+        <p>Your Funds: {{ funds | currency}}</p>
     </article>
 </template>
 
 <script>
     export default {
         name: "Homepage",
+        computed: {
+            funds () {
+                return this.$store.getters.funds
+            }
+        }
     }
 </script>
 
