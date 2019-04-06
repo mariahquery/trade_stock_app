@@ -7,30 +7,17 @@
 
 <script>
     import Stock from './Stock.vue'
+    import {mapGetters} from 'vuex'
 
     export default {
         components: {
             "bought-stock": Stock
         },
         name: "Stocks",
-        data() {
-            return {
-                stocks: [
-                    {brand: "BMW", price: 100, value: ''}
-                ]
-            }
+        computed: {
+            ...mapGetters({
+                stocks: 'stockPortfolio'
+            })
         }
     }
 </script>
-
-<style scoped>
-
-    .mb20 {
-        margin-bottom: 20px;
-    }
-    .sell--btn {
-        padding: 5px 10px;
-        background-color: #E5908E;
-        border-radius: 5px;
-    }
-</style>
