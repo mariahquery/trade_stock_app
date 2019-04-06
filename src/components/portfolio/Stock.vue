@@ -2,14 +2,17 @@
     <div>
         <div class="box-wrapper">
             <div class="box-head">
-                <div style="font-weight: bold">{{ stock.brand }}</div>
+                <div style="font-weight: bold">{{ stock.name }}</div>
                 <div>(Price: {{ stock.price }} | Quantity: {{ stock.quantity }})</div>
             </div>
             <div class="box-body">
                 <div>
-                    <input placeholder="Quantity" v-model="stock.value" class="input-stock" type="number">
+                    <input placeholder="Quantity"
+                           v-model="quantity"
+                           class="input-stock"
+                           type="number"/>
                 </div>
-                <button class="sell--btn" @click="sellStock(stock)">Buy</button>
+                <button class="sell--btn" @click="sellStock">Sell</button>
             </div>
         </div>
 
@@ -17,13 +20,31 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex';
+
     export default {
         props: ["stock"],
         name: "Portfolio",
+        data() {
+            return {
+                quantity: 0
+            }
+        },
         methods: {
-            sellStock(stock) {
-                // Sell Stock
-                console.log(stock);
+            ...mapActions({
+                    placeSellOrder: 'sellStock'
+                }
+            ),
+            sellStock() {
+                debugger;
+                const order = {
+                    stockId: this.stock.id,
+                    stockPrice: this.stock.price,
+                    quantity: this.quantity
+                };
+
+                this.placeSellOrder(order);
+                this.quantity = 0;
             }
         }
     }

@@ -2,18 +2,17 @@
     <div>
         <div class="box-wrapper">
             <div class="box-head">
-                <div><strong>{{ stock.brand }}</strong></div>
-                <div>(Price: {{ stock.price }})</div>
+                <div style="font-weight: bold">{{ stock.name }}</div>
+                <div>(Price: {{ stock.price }} | Quantity: {{ stock.quantity }})</div>
             </div>
             <div class="box-body">
                 <div>
-                    <input :min="stock.price"
-                           placeholder="Quantity"
-                           v-model="stock.value"
+                    <input placeholder="Quantity"
+                           v-model="quantity"
                            class="input-stock"
                            type="number">
                 </div>
-                <button class="buy--btn" @click="buyStock(stock)">Buy</button>
+                <button class="buy--btn" @click="buyStock">Buy</button>
             </div>
         </div>
     </div>
@@ -23,15 +22,20 @@
     export default {
         props: ["stock"],
         name: "Stock",
+        data () {
+          return {
+              quantity: 0
+          }
+        },
         methods: {
-            buyStock(stock) {
+            buyStock() {
                 const order = {
-                    stockId: stock.id,
-                    stockPrice: stock.price,
-                    quantity: stock.value
+                    stockId: this.stock.id,
+                    stockPrice: this.stock.price,
+                    quantity: this.quantity
                 };
-                console.log(stock);
-                console.log(order);
+                this.$store.dispatch('buyStock', order);
+                this.quantity = 0;
             }
         }
     }
